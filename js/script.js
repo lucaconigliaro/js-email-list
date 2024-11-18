@@ -5,11 +5,24 @@
 // - Abbellire con CSS o Bootstrap
 // - Inserire un bottone che al click faccia il fetch altre 10 mail (sostituendo le altre)
 const listElem = document.getElementById("mail-list");
+const buttonElem = document.getElementById("refresh")
 
 // Ciclo for per generare l'email
-for (let i = 0; i <= 10; i++) {
-    axios.get("https://flynn.boolean.careers/exercises/api/random/mail").then((resp) => {
-        // console.log(resp);
-        listElem.innerHTML += `<li>${resp.data.response}</li>`
-    });
-}
+const newEmails = (numEmails) => {
+    for (let i = 1; i <= numEmails; i++) {
+        axios.get("https://flynn.boolean.careers/exercises/api/random/mail").then((resp) => {
+            console.log(resp);
+            listElem.innerHTML += `<li>${resp.data.response}</li>`;
+        });
+    }
+};
+
+// Chiamata iniziale per la lista con 10 email
+const refresh = () => {
+    listElem.innerHTML = ""; //Svuoto la lista prima di aggiungere nuovi elementi
+    newEmails(10);
+};
+
+// Aggiungo l'event listener al pulsante
+newEmails(10);
+buttonElem.addEventListener("click", refresh);
